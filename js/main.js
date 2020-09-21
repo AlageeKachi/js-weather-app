@@ -1,19 +1,19 @@
 const searchButton = document.getElementById('search-btn');
 const temp_description = document.getElementById('temp-desc');
-const myData = document.getElementById('weather-data');
-let weatherDetail = document.getElementById('details');
+// const myData = document.getElementById('weather-data');
+// let weatherDetail = document.getElementById('details');
 
 function validateResponse(response){
 	if (!response.ok) {
 		throw Error(response.statusText)
-	}
+    }
 	return response
 }
 
-function readAsJson(response){
-	return response.json()
-	console.log(response.json())
-}
+// function readAsJson(response){
+// 	return response.json()
+// 	console.log(response.json())
+// }
 
 
 /*
@@ -25,18 +25,17 @@ function displayLogo(responseAsBlob){
 	imgElement.src = imgUrl;
 	console.log(responseAsBlob.weather.icon);
 }
-
 */
 
 
-function logError(err){
-	console.log('some Error has occured', err)
-}
+// function logError(err){
+// 	console.log('some Error has occured', err)
+// }
 
 function fetchContent(){
 	const key  = '89aa259c6e0fd4e27dc153c0c608ebfc';
 	cityName = document.getElementById('search-text').value;
-	fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${key}&units=metric`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${key}&units=metric`)
 	.then(validateResponse)
 	.then(detailAsJson)
 	.then(function(data) {
@@ -46,32 +45,29 @@ function fetchContent(){
 	//.then(showLogo)
 	//.then(readAsJson)
 	//.then(logResult)
-	.catch(logError)
+	// .catch(logError)
 }
 function detailAsJson(response){
-	return response.json();
+    return response.json();
 }
 
 function displayDetail(response){
 	detail = response.weather[0]
-	main = response.main
-	return weatherDetail.map(function(detail, main) {
-		temp_description.innerHTML = detail.weather[0].description;
-		console.log(detail);
-	})
-	temp_description.innerHTML = response.weather[0].description;
-	console.log(response.weather[0].description)
-	
+    main = response.main;
+	temp_description.innerHTML = detail.description; // I stoped here, and from here it should display the weather description. 
+	// return weatherDetail.map(function(detail, main) {
+	// 	console.log('the inner', detail);
+	// })
 }
-function showLogo(imgage){
-	let imgContainer = document.getElementById('Weather-logo');
-	let imgElement = imgContainer.appendChild('img');
-	let imgSrc = URL.createObjectURL(displayLogo)
-	imgElement.src = imgSrc;
-}
+// function showLogo(imgage){
+// 	let imgContainer = document.getElementById('Weather-logo');
+// 	let imgElement = imgContainer.appendChild('img');
+// 	let imgSrc = URL.createObjectURL(displayLogo)
+// 	imgElement.src = imgSrc;
+// }
 
-function logResult(result){
-	console.log('result fetched successfully', result)
-}
+// function logResult(result){
+// 	console.log('result fetched successfully', result)
+// }
 
 searchButton.addEventListener('click', fetchContent)
